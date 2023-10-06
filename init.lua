@@ -51,7 +51,7 @@ require('lazy').setup({
 
       -- Useful status updates for LSP
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { 'j-hui/fidget.nvim', tag = 'legacy', opts = {} },
+      { 'j-hui/fidget.nvim',       tag = 'legacy', opts = {} },
 
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
@@ -75,7 +75,7 @@ require('lazy').setup({
   },
 
   -- Useful plugin to show you pending keybinds.
-  { 'folke/which-key.nvim', opts = {} },
+  { 'folke/which-key.nvim',  opts = {} },
   {
     -- Adds git related signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
@@ -93,16 +93,16 @@ require('lazy').setup({
 
         -- don't override the built-in and fugitive keymaps
         local gs = package.loaded.gitsigns
-        vim.keymap.set({'n', 'v'}, ']c', function()
+        vim.keymap.set({ 'n', 'v' }, ']c', function()
           if vim.wo.diff then return ']c' end
           vim.schedule(function() gs.next_hunk() end)
           return '<Ignore>'
-        end, {expr=true, buffer = bufnr, desc = "Jump to next hunk"})
-        vim.keymap.set({'n', 'v'}, '[c', function()
+        end, { expr = true, buffer = bufnr, desc = "Jump to next hunk" })
+        vim.keymap.set({ 'n', 'v' }, '[c', function()
           if vim.wo.diff then return '[c' end
           vim.schedule(function() gs.prev_hunk() end)
           return '<Ignore>'
-        end, {expr=true, buffer = bufnr, desc = "Jump to previous hunk"})
+        end, { expr = true, buffer = bufnr, desc = "Jump to previous hunk" })
       end,
     },
   },
@@ -204,7 +204,7 @@ vim.o.mouse = 'a'
 -- Sync clipboard between OS and Neovim.
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
-vim.o.clipboard = 'unnamedplus'
+-- vim.o.clipboard = 'unnamedplus'
 
 -- Enable break indent
 vim.o.breakindent = true
@@ -250,6 +250,16 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
 })
 
+-- [[ Theme settings ]]
+require('onedark').setup {
+  style = 'deep',
+  transparent = true,
+  lualine = {
+    transparent = true
+  }
+}
+
+require('onedark').load()
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
 require('telescope').setup {
@@ -291,7 +301,8 @@ vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = 
 vim.defer_fn(function()
   require('nvim-treesitter.configs').setup {
     -- Add languages to be installed here that you want installed for treesitter
-    ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim' , 'dart'},
+    ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim',
+      'dart' },
     -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
     auto_install = false,
     highlight = { enable = true },
