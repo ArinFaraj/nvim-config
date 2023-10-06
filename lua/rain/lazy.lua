@@ -5,16 +5,16 @@ if not vim.loop.fs_stat(lazypath) then
     "clone",
     "--filter=blob:none",
     "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
+    "--branch=stable", 
     lazypath,
   })
 end
+
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
   "folke/which-key.nvim",
   { "folke/neoconf.nvim", cmd = "Neoconf" },
-  "folke/neodev.nvim",
   {
     'akinsho/flutter-tools.nvim',
     lazy = false,
@@ -23,7 +23,14 @@ require("lazy").setup({
         'stevearc/dressing.nvim', -- optional for vim.ui.select
     },
     config = true,
-}
+  },
+  {    'numToStr/Comment.nvim',
+    opts = {
+        -- add any options here
+    },
+    lazy = false,
+  }
 })
 
-require("flutter-tools").setup {} -- use defaults
+require("flutter-tools").setup {} 
+require('Comment').setup()
