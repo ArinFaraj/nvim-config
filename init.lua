@@ -180,7 +180,8 @@ require('lazy').setup({
     build = ':TSUpdate',
   },
   {
-    "windwp/nvim-autopairs"
+    "windwp/nvim-autopairs",
+    opts = {}
   },
   {
     'akinsho/flutter-tools.nvim',
@@ -192,6 +193,7 @@ require('lazy').setup({
     config = true,
   },
   {"zbirenbaum/copilot.lua", opts = {}},
+  'LhKipp/nvim-nu',
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
   --       These are some example plugins that I've included in the kickstart repository.
   --       Uncomment any of the lines below to enable them.
@@ -274,9 +276,9 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 require('onedark').setup {
   style = 'deep',
   transparent = true,
-  lualine = {
-    transparent = true
-  }
+  -- lualine = {
+  --   transparent = true
+  -- }
 }
 
 require('onedark').load()
@@ -322,7 +324,7 @@ vim.defer_fn(function()
   require('nvim-treesitter.configs').setup {
     -- Add languages to be installed here that you want installed for treesitter
     ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim',
-      'dart' },
+      'dart' , 'nu'},
     -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
     auto_install = false,
     highlight = { enable = true },
@@ -333,7 +335,7 @@ vim.defer_fn(function()
         init_selection = '<c-space>',
         node_incremental = '<c-space>',
         scope_incremental = '<c-s>',
-        node_decremental = '<M-space>',
+        node_decremental = '<m-space>',
       },
     },
     textobjects = {
