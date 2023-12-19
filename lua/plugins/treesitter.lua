@@ -3,6 +3,9 @@ return {
   opts = function(_, opts)
     vim.list_extend(opts.ensure_installed, {
       "dart",
+      "json",
+      "json5",
+      "jsonc",
     })
   end,
 }
