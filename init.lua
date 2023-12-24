@@ -1,2 +1,7 @@
--- bootstrap lazy.nvim, LazyVim and your plugins
-require("config.lazy")
+-- local autocmd = vim.api.nvim_create_autocmd
+
+-- Auto resize panes when resizing nvim window
+-- autocmd("VimResized", {
+--   pattern = "*",
+--   command = "tabdo wincmd =",
+-- })
