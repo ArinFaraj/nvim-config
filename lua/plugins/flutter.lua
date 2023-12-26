@@ -15,16 +15,16 @@ return {
     -- stylua: ignore
     enabled = not vim.o.diff,
     dependencies = {
-      {
-        "dart-lang/dart-vim-plugin",
-        init = function()
-          vim.g.dart_style_guide = 2
-          vim.g.dart_html_in_string = true
-          vim.g.dart_trailing_comma_indent = true
-          vim.g.dartfmt_options = { "--fix" }
-        end,
-      },
-      "Nash0x7E2/awesome-flutter-snippets",
+      -- {
+      --   "dart-lang/dart-vim-plugin",
+      --   init = function()
+      --     vim.g.dart_style_guide = 2
+      --     vim.g.dart_html_in_string = true
+      --     vim.g.dart_trailing_comma_indent = true
+      --     vim.g.dartfmt_options = { "--fix" }
+      --   end,
+      -- },
+      -- "Nash0x7E2/awesome-flutter-snippets",
     },
     opts = {
       ui = {
@@ -96,20 +96,31 @@ return {
         run_via_dap = true,
         exception_breakpoints = {},
         register_configurations = function(_)
+          local is_windows = vim.fn.has("win32") > 0
+          local path_sep = is_windows and "\\" or "/"
+          local flutter_exec = is_windows and "flutter.bat" or "flutter"
           local dap = require("dap")
-          local flutterBin = vim.fn.resolve(vim.fn.exepath("flutter.bat"))
+          local flutterBin = vim.fn.resolve(vim.fn.exepath(flutter_exec))
           local flutterSdk = vim.fn.fnamemodify(flutterBin, ":h:h")
-          local dartSdk = flutterSdk .. "\\bin\\cache\\dart-sdk"
+          local dartSdk = flutterSdk
+            .. path_sep
+            .. "bin"
+            .. path_sep
+            .. "cache"
+            .. path_sep
+            .. "dart-sdk"
 
-          dap.adapters.dart = {
-            type = "executable",
-            command = vim.fn.exepath("cmd.exe"),
-            args = { "/c", flutterBin, "debug_adapter" },
-            options = {
-              detached = false,
-              initialize_timeout_sec = 10,
-            },
-          }
+          if is_windows then
+            dap.adapters.dart = {
+              type = "executable",
+              command = vim.fn.exepath("cmd.exe"),
+              args = { "/c", flutterBin, "debug_adapter" },
+              options = {
+                detached = false,
+                initialize_timeout_sec = 10,
+              },
+            }
+          end
 
           dap.configurations.dart = {
             {
@@ -118,7 +129,11 @@ return {
               name = "Launch dart",
               dartSdkPath = dartSdk,
               flutterSdkPath = flutterSdk,
-              program = "${workspaceFolder}\\lib\\main.dart",
+              program = "${workspaceFolder}"
+                .. path_sep
+                .. "lib"
+                .. path_sep
+                .. "main.dart",
               cwd = "${workspaceFolder}",
             },
           }
