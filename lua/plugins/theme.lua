@@ -1,0 +1,11 @@
+return {
+  {
+    "navarasu/onedark.nvim",
+    priority = 1000,
+    lazy = true,
+    opts = {
+      style = "deep",
+      transparent = true,
+    },
+  },
+}
