@@ -5,3 +5,4 @@ vim.opt.shell = vim.fn.has("win32") > 0 and "nu"
   or vim.fn.has("unix") > 0 and "bash"
   or "bash"
 vim.opt.scrolloff = 15 -- Lines of context
+-- vim.g.minipairs_disable = true
