@@ -4,5 +4,5 @@ return {
   opts = {
     use_lsp_features = false,
   },
-  build = ":TSInstall nu",
+  build = "TSInstall nu",
 }
