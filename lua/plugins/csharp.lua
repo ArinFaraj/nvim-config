@@ -2,15 +2,21 @@ return {
   "iabdelkareem/csharp.nvim",
   dependencies = {
     "williamboman/mason.nvim", -- Required, automatically installs omnisharp
+    "mfussenegger/nvim-dap",
     "Tastyep/structlog.nvim",  -- Optional, but highly recommended for debugging
-  },
-  opts = {
-    lsp = {
-      cmd_path = true,
-    },
   },
   config = function()
     -- Listen to LSP Attach
+    --
+    require("mason").setup() -- Mason setup must run before csharp
+    require("csharp").setup(
+    -- {
+    -- lsp = {
+    --   cmd_path = true,
+    -- },
+    -- }
+    )
+
     vim.api.nvim_create_autocmd("LspAttach", {
       callback = function(args)
         local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
