@@ -69,6 +69,11 @@ return {
               name = "+dart",
               buffer = bufnr,
             })
+
+            wk.register({
+              -- r = { "<cmd>FlutterRun<cr>", "Flutter Run" },
+              r = { "<cmd>FlutterRestart<cr>", "Flutter Restart" },
+            }, { prefix = "<leader>", buffer = bufnr })
           end
 
           register_keys()
@@ -103,12 +108,12 @@ return {
           local flutterBin = vim.fn.resolve(vim.fn.exepath(flutter_exec))
           local flutterSdk = vim.fn.fnamemodify(flutterBin, ":h:h")
           local dartSdk = flutterSdk
-            .. path_sep
-            .. "bin"
-            .. path_sep
-            .. "cache"
-            .. path_sep
-            .. "dart-sdk"
+              .. path_sep
+              .. "bin"
+              .. path_sep
+              .. "cache"
+              .. path_sep
+              .. "dart-sdk"
 
           if is_windows then
             dap.adapters.dart = {
@@ -130,10 +135,10 @@ return {
               dartSdkPath = dartSdk,
               flutterSdkPath = flutterSdk,
               program = "${workspaceFolder}"
-                .. path_sep
-                .. "lib"
-                .. path_sep
-                .. "main.dart",
+                  .. path_sep
+                  .. "lib"
+                  .. path_sep
+                  .. "main.dart",
               cwd = "${workspaceFolder}",
             },
           }
