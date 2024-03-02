@@ -7,6 +7,7 @@ return {
       "json",
       "json5",
       "jsonc",
+      "c_sharp",
     })
   end,
 }
