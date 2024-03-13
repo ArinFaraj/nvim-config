@@ -86,7 +86,11 @@ return {
         end,
         color = {
           enabled = true,
-          background = true,
+          background = false,
+          background_color = { r = 19, g = 17, b = 24 },
+          foreground = false,
+          virtual_text = true,
+          virtual_text_str = "■",
         },
         settings = {
           showTodos = false,
@@ -108,12 +112,12 @@ return {
           local flutterBin = vim.fn.resolve(vim.fn.exepath(flutter_exec))
           local flutterSdk = vim.fn.fnamemodify(flutterBin, ":h:h")
           local dartSdk = flutterSdk
-              .. path_sep
-              .. "bin"
-              .. path_sep
-              .. "cache"
-              .. path_sep
-              .. "dart-sdk"
+            .. path_sep
+            .. "bin"
+            .. path_sep
+            .. "cache"
+            .. path_sep
+            .. "dart-sdk"
 
           if is_windows then
             dap.adapters.dart = {
@@ -127,23 +131,26 @@ return {
             }
           end
 
-          dap.configurations.dart = {
-            {
-              type = "dart",
-              request = "launch",
-              name = "Launch dart",
-              dartSdkPath = dartSdk,
-              flutterSdkPath = flutterSdk,
-              program = "${workspaceFolder}"
+          require("dap.ext.vscode").load_launchjs()
+
+          -- if dap configurations were empty, then we can set this default one
+          if not dap.configurations.dart then
+            dap.configurations.dart = {
+              {
+                type = "dart",
+                request = "launch",
+                name = "Launch dart",
+                dartSdkPath = dartSdk,
+                flutterSdkPath = flutterSdk,
+                program = "${workspaceFolder}"
                   .. path_sep
                   .. "lib"
                   .. path_sep
                   .. "main.dart",
-              cwd = "${workspaceFolder}",
-            },
-          }
-
-          require("dap.ext.vscode").load_launchjs()
+                cwd = "${workspaceFolder}",
+              },
+            }
+          end
         end,
       },
     },
