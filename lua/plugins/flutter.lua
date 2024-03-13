@@ -12,7 +12,6 @@ return {
   {
     "akinsho/flutter-tools.nvim",
     ft = "dart",
-    -- stylua: ignore
     enabled = not vim.o.diff,
     dependencies = {
       -- {
@@ -24,7 +23,7 @@ return {
       --     vim.g.dartfmt_options = { "--fix" }
       --   end,
       -- },
-      -- "Nash0x7E2/awesome-flutter-snippets",
+      "Nash0x7E2/awesome-flutter-snippets",
     },
     opts = {
       ui = {
@@ -60,20 +59,15 @@ return {
             })
 
             wk.register({
-              r = { "<cmd>FlutterRun<cr>", "Flutter Run" },
-              R = { "<cmd>FlutterRestart<cr>", "Flutter Restart" },
+              d = { "<cmd>FlutterRun<cr>", "Flutter Run" },
+              r = { "<cmd>FlutterRestart<cr>", "Flutter Restart" },
               p = { "<cmd>FlutterPubGet<cr>", "Flutter Pub Get" },
               P = { "<cmd>FlutterPubUpgrade<cr>", "Flutter Pub Upgrade" },
             }, {
-              prefix = "<leader>cD",
+              prefix = "<leader>m",
               name = "+dart",
               buffer = bufnr,
             })
-
-            wk.register({
-              -- r = { "<cmd>FlutterRun<cr>", "Flutter Run" },
-              r = { "<cmd>FlutterRestart<cr>", "Flutter Restart" },
-            }, { prefix = "<leader>", buffer = bufnr })
           end
 
           register_keys()
@@ -112,12 +106,12 @@ return {
           local flutterBin = vim.fn.resolve(vim.fn.exepath(flutter_exec))
           local flutterSdk = vim.fn.fnamemodify(flutterBin, ":h:h")
           local dartSdk = flutterSdk
-            .. path_sep
-            .. "bin"
-            .. path_sep
-            .. "cache"
-            .. path_sep
-            .. "dart-sdk"
+              .. path_sep
+              .. "bin"
+              .. path_sep
+              .. "cache"
+              .. path_sep
+              .. "dart-sdk"
 
           if is_windows then
             dap.adapters.dart = {
@@ -143,10 +137,10 @@ return {
                 dartSdkPath = dartSdk,
                 flutterSdkPath = flutterSdk,
                 program = "${workspaceFolder}"
-                  .. path_sep
-                  .. "lib"
-                  .. path_sep
-                  .. "main.dart",
+                    .. path_sep
+                    .. "lib"
+                    .. path_sep
+                    .. "main.dart",
                 cwd = "${workspaceFolder}",
               },
             }
