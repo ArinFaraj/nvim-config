@@ -1,21 +1,25 @@
 return {
   "iabdelkareem/csharp.nvim",
   dependencies = {
-    "williamboman/mason.nvim", -- Required, automatically installs omnisharp
+    "williamboman/mason.nvim",
     "mfussenegger/nvim-dap",
-    "Tastyep/structlog.nvim",  -- Optional, but highly recommended for debugging
+    "Tastyep/structlog.nvim",
   },
   config = function()
     -- Listen to LSP Attach
-    --
     require("mason").setup() -- Mason setup must run before csharp
-    require("csharp").setup(
-    -- {
-    -- lsp = {
-    --   cmd_path = true,
-    -- },
-    -- }
-    )
+
+    local mason_omnisharp_path = vim.fn.stdpath("data")
+        .. "/mason/packages/omnisharp/"
+    local omnisharp_cmd = mason_omnisharp_path
+        .. "omnisharp"
+        .. (vim.fn.has("win32") == 1 and ".cmd" or "")
+
+    require("csharp").setup({
+      lsp = {
+        cmd_path = omnisharp_cmd,
+      },
+    })
 
     vim.api.nvim_create_autocmd("LspAttach", {
       callback = function(args)
