@@ -63,6 +63,7 @@ return {
               r = { "<cmd>FlutterRestart<cr>", "Flutter Restart" },
               p = { "<cmd>FlutterPubGet<cr>", "Flutter Pub Get" },
               P = { "<cmd>FlutterPubUpgrade<cr>", "Flutter Pub Upgrade" },
+              l = { "<cmd>FlutterLogClear<cr>", "Flutter Log Clear" },
             }, {
               prefix = "<leader>m",
               name = "+dart",

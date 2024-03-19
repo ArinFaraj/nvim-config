@@ -3,7 +3,9 @@
 -- Add any additional autocmds here
 
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = "dap-float",
+  pattern = {
+    "dap-float",
+  },
   callback = function(event)
     vim.bo[event.buf].buflisted = false
     vim.keymap.set(
