@@ -1,27 +1,28 @@
 return {
-  {
-    "neovim/nvim-lspconfig",
-    dependencies = {
-      "jmederosalvarado/roslyn.nvim",
-      "iabdelkareem/csharp.nvim",
-    },
-    opts = {
-      servers = {
-        roslyn = {
-          on_attach = function() end,
-        },
-      },
-      setup = {
-        roslyn = function(_, opts)
-          local ok, roslyn = pcall(require, "roslyn")
-          if ok then
-            roslyn.setup(opts)
-          end
-          return true
-        end,
-      },
-    },
-  },
+  -- {
+  --   "neovim/nvim-lspconfig",
+  --   dependencies = {
+  --     "jmederosalvarado/roslyn.nvim",
+  --     "iabdelkareem/csharp.nvim",
+  --   },
+  --   opts = {
+  --     servers = {
+  --       roslyn = {
+  --         on_attach = function() end,
+  --       },
+  --     },
+  --     setup = {
+  --       roslyn = function(_, opts)
+  --         local ok, roslyn = pcall(require, "roslyn")
+  --         if ok then
+  --           roslyn.setup(opts)
+  --         end
+  --         return true
+  --       end,
+  --     },
+  --   },
+  -- },
+
   -- "iabdelkareem/csharp.nvim",
   -- dependencies = {
   --   "williamboman/mason.nvim",
