@@ -14,7 +14,7 @@ if vim.fn.has("win32") > 0 then
 
   -- Setting shell command flags
   vim.o.shellcmdflag =
-  "-NoLogo -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.UTF8Encoding]::new();$PSDefaultParameterValues['Out-File:Encoding']='utf8';"
+    "-NoLogo -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.UTF8Encoding]::new();$PSDefaultParameterValues['Out-File:Encoding']='utf8';"
 
   -- Setting shell redirection
   vim.o.shellredir = '2>&1 | %{ "$_" } | Out-File %s; exit $LastExitCode'
@@ -34,5 +34,23 @@ if vim.fn.has("unix") > 0 then
     vim.o.shell = "bash"
   else
     return LazyVim.error("No powershell executable found")
+  end
+  local clip = "/mnt/c/Windows/System32/clip.exe"
+
+  if vim.fn.executable(clip) then
+    local opts = {
+      callback = function()
+        if vim.v.event.operator ~= "y" then
+          return
+        end
+        vim.fn.system(clip, vim.fn.getreg(0))
+      end,
+    }
+
+    opts.group = vim.api.nvim_create_augroup("WSLYank", {})
+    vim.api.nvim_create_autocmd(
+      "TextYankPost",
+      { group = opts.group, callback = opts.callback }
+    )
   end
 end
