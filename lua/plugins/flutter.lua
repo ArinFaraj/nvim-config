@@ -28,6 +28,9 @@ return {
           p = { "<cmd>FlutterPubGet<cr>", "Flutter Pub Get" },
           P = { "<cmd>FlutterPubUpgrade<cr>", "Flutter Pub Upgrade" },
           l = { "<cmd>FlutterLogClear<cr>", "Flutter Log Clear" },
+          e = { "<cmd>FlutterEmulators<cr>", "Emulators" },
+          x = { "<cmd>FlutterOpenDevTools<cr>", "Open DevTools" },
+          c = { "<cmd>FlutterCopyProfilerUrl<cr>", "Copy Profiler Url" },
         }, {
           prefix = "<leader>m",
           name = "+dart",
@@ -38,7 +41,12 @@ return {
       require("flutter-tools").setup({
         ui = {
           -- border = "single",
-          notification_style = "native",
+          notification_style = "plugin",
+        },
+        decoration = {
+          statusline = {
+            app_version = true,
+          },
         },
         widget_guides = {
           enabled = true,
@@ -53,7 +61,11 @@ return {
         },
         dev_log = {
           enabled = true,
+          notify_errors = true,
           open_cmd = "botright 5sp",
+        },
+        dev_tools = {
+          auto_open_browser = true,
         },
         lsp = {
           on_attach = function()
@@ -108,7 +120,8 @@ return {
             completeFunctionCalls = true,
             updateImportsOnRename = true,
             enableSnippets = true,
-            renameFilesWithClasses = true,
+            renameFilesWithClasses = "prompt",
+            analysisExcludedFolders = {},
           },
         },
         debugger = {
