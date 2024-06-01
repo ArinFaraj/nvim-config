@@ -69,40 +69,47 @@ return {
         },
         lsp = {
           on_attach = function()
-            local dart_fix_all = function(bufnr, isPreflight)
-              local command = "edit.fixAll"
-              local cur_buf_name = vim.api.nvim_buf_get_name(bufnr)
-              local params = {
-                command = command,
-                arguments = { { path = cur_buf_name } },
-                title = "",
-              }
+            -- local dart_fix_all = function(bufnr, isPreflight)
+            --   local command = "edit.fixAll"
+            --   local cur_buf_name = vim.api.nvim_buf_get_name(bufnr)
+            --   local params = {
+            --     command = command,
+            --     arguments = { { path = cur_buf_name } },
+            --     title = "",
+            --   }
+            --
+            --   if isPreflight then
+            --     vim.lsp.buf_request(
+            --       bufnr,
+            --       "workspace/executeCommand",
+            --       params,
+            --       function() end
+            --     )
+            --     return
+            --   end
+            --   vim.lsp.buf_request_sync(
+            --     bufnr,
+            --     "workspace/executeCommand",
+            --     params,
+            --     3000
+            --   )
+            -- end
 
-              if isPreflight then
-                vim.lsp.buf_request(
-                  bufnr,
-                  "workspace/executeCommand",
-                  params,
-                  function() end
-                )
-                return
-              end
-              vim.lsp.buf_request_sync(
-                bufnr,
-                "workspace/executeCommand",
-                params,
-                3000
-              )
-            end
-
-            local bufnr = vim.api.nvim_get_current_buf()
+            -- local bufnr = vim.api.nvim_get_current_buf()
             -- hack: Preflight async request to dartls, which can prevent blocking when save buffer on first time opened
-            dart_fix_all(bufnr, true)
+            -- dart_fix_all(bufnr, true)
             vim.api.nvim_create_autocmd("BufWritePre", {
               pattern = "*.dart",
               group = vim.api.nvim_create_augroup("LspDartFixAll", {}),
               callback = function(args)
-                dart_fix_all(args.buf)
+                vim.lsp.buf.code_action({
+                  context = {
+                    only = { "source.fixAll" },
+                    diagnostics = {},
+                  },
+                  apply = true,
+                })
+                -- dart_fix_all(args.buf)
               end,
             })
             require("telescope").load_extension("flutter")
