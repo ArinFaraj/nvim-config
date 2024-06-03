@@ -1,0 +1,1 @@
+return { "jbyuki/quickmath.nvim" }
