@@ -70,6 +70,7 @@ end
 
 return {
   "nvim-telescope/telescope.nvim",
+  dependencies = { "debugloop/telescope-undo.nvim" },
   opts = {
     pickers = {
       find_files = {
@@ -77,6 +78,11 @@ return {
       },
     },
   },
+  config = function(_, opts)
+    local tel = require("telescope")
+    tel.setup(opts)
+    tel.load_extension("undo")
+  end,
   keys = {
     {
       "<leader><space>",
@@ -92,6 +98,11 @@ return {
       "<leader>fF",
       telescope("files", { cwd = false, path_display = filenameFirst }),
       desc = "Find Files (cwd)",
+    },
+    {
+      "<leader>su",
+      "<cmd>Telescope undo<cr>",
+      desc = "Show Undo Tree",
     },
   },
 }
