@@ -70,7 +70,11 @@ end
 
 return {
   "nvim-telescope/telescope.nvim",
-  dependencies = { "debugloop/telescope-undo.nvim" },
+  dependencies = {
+
+    "natecraddock/telescope-zf-native.nvim",
+    "debugloop/telescope-undo.nvim",
+  },
   opts = {
     pickers = {
       find_files = {
@@ -82,6 +86,7 @@ return {
     local tel = require("telescope")
     tel.setup(opts)
     tel.load_extension("undo")
+    tel.load_extension("zf-native")
   end,
   keys = {
     {
