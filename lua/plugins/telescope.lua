@@ -68,10 +68,18 @@ local function telescope(builtin, opts)
   end
 end
 
+vim.g.sqlite_clib_path = "C:\\tools\\sqlite3\\sqlite3.dll"
+
 return {
   "nvim-telescope/telescope.nvim",
   dependencies = {
-
+    {
+      "prochri/telescope-all-recent.nvim",
+      dependencies = {
+        "kkharji/sqlite.lua",
+      },
+      opts = {},
+    },
     "natecraddock/telescope-zf-native.nvim",
     "debugloop/telescope-undo.nvim",
   },
