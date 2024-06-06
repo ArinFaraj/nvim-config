@@ -16,3 +16,12 @@ vim.api.nvim_create_autocmd("FileType", {
     )
   end,
 })
+
+vim.api.nvim_create_autocmd({ "BufWinEnter", "WinEnter" }, {
+  pattern = "*",
+  callback = function()
+    if vim.bo.buftype == "terminal" then
+      vim.cmd("startinsert")
+    end
+  end,
+})
