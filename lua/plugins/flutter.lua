@@ -10,7 +10,27 @@ return {
   --   },
   -- },
   {
-    "akinsho/flutter-tools.nvim",
+    "m00qek/baleia.nvim",
+    config = function()
+      vim.g.baleia =
+        require("baleia").setup({ log = "INFO", line_starts_at = 6 })
+      vim.api.nvim_create_autocmd("BufWinEnter", {
+        pattern = "__FLUTTER_DEV_LOG__",
+        callback = function()
+          vim.o.modifiable = true
+          vim.g.baleia.automatically(vim.api.nvim_get_current_buf())
+          vim.o.modifiable = false
+        end,
+      })
+      vim.api.nvim_create_user_command(
+        "BaleiaLogs",
+        vim.g.baleia.logger.show,
+        { bang = true }
+      )
+    end,
+  },
+  {
+    "ArinFaraj/flutter-tools.nvim",
     ft = "dart",
     enabled = not vim.o.diff,
     dependencies = {
