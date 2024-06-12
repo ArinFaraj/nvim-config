@@ -17,9 +17,8 @@ return {
       vim.api.nvim_create_autocmd("BufWinEnter", {
         pattern = "__FLUTTER_DEV_LOG__",
         callback = function()
-          vim.o.modifiable = true
+          -- vim.o.modifiable = true
           vim.g.baleia.automatically(vim.api.nvim_get_current_buf())
-          vim.o.modifiable = false
         end,
       })
       vim.api.nvim_create_user_command(
