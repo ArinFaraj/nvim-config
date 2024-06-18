@@ -142,7 +142,7 @@ return {
             virtual_text_str = "■",
           },
           settings = {
-            showTodos = false,
+            showTodos = true,
             completeFunctionCalls = true,
             updateImportsOnRename = true,
             enableSnippets = true,

@@ -5,6 +5,8 @@ return {
       use_libuv_file_watcher = false,
     },
     window = {
+
+      position = "right",
       mappings = {
         ["O"] = {
           command = function(state)
