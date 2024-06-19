@@ -39,13 +39,16 @@ vim.api.nvim_create_autocmd("User", {
       [[<cmd>call VSCodeNotify('workbench.action.findInFiles')<cr>]]
     )
     vim.keymap.set(
+      { "n", "x" },
+      "<leader>e",
+      [[<cmd>call VSCodeNotify('workbench.action.toggleSidebarVisibility')<cr>]]
+    )
+    vim.keymap.set(
       "n",
       "<leader>ss",
       [[<cmd>call VSCodeNotify('workbench.action.gotoSymbol')<cr>]]
     )
-    vim.keymap.set("x", "gc", "<Plug>VSCodeCommentary", {})
-    vim.keymap.set("n", "gc", "<Plug>VSCodeCommentary", {})
-    vim.keymap.set("o", "gc", "<Plug>VSCodeCommentary", {})
+    vim.keymap.set({ "x", "n", "o" }, "gc", "<Plug>VSCodeCommentary", {})
     vim.keymap.set("n", "gcc", "<Plug>VSCodeCommentaryLine", {})
     vim.keymap.set(
       "n",
@@ -69,42 +72,22 @@ vim.api.nvim_create_autocmd("User", {
       [[<cmd>call VSCodeNotify('workbench.action.previousEditor')<cr>]]
     )
     vim.keymap.set(
-      "n",
+      { "n", "x" },
       "C-j",
       "<Cmd>call VSCodeNotify('workbench.action.navigateDown')<CR>"
     )
     vim.keymap.set(
-      "x",
-      "C-j",
-      "<Cmd>call VSCodeNotify('workbench.action.navigateDown')<CR>"
-    )
-    vim.keymap.set(
-      "n",
+      { "n", "x" },
       "C-k",
       "<Cmd>call VSCodeNotify('workbench.action.navigateUp')<CR>"
     )
     vim.keymap.set(
-      "x",
-      "C-k",
-      "<Cmd>call VSCodeNotify('workbench.action.navigateUp')<CR>"
-    )
-    vim.keymap.set(
-      "n",
+      { "n", "x" },
       "C-h",
       "<Cmd>call VSCodeNotify('workbench.action.navigateLeft')<CR>"
     )
     vim.keymap.set(
-      "x",
-      "C-h",
-      "<Cmd>call VSCodeNotify('workbench.action.navigateLeft')<CR>"
-    )
-    vim.keymap.set(
-      "n",
-      "C-l",
-      "<Cmd>call VSCodeNotify('workbench.action.navigateRight')<CR>"
-    )
-    vim.keymap.set(
-      "x",
+      { "n", "x" },
       "C-l",
       "<Cmd>call VSCodeNotify('workbench.action.navigateRight')<CR>"
     )
@@ -116,7 +99,6 @@ return {
     "LazyVim/LazyVim",
     config = function(_, opts)
       opts = opts or {}
-      -- disable the colorscheme
       opts.colorscheme = function() end
       require("lazyvim").setup(opts)
     end,
