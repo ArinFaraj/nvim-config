@@ -128,6 +128,7 @@ return {
                   },
                   apply = true,
                 })
+                vim.api.nvim_command("write")
                 -- dart_fix_all(args.buf)
               end,
             })
