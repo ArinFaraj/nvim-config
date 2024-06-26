@@ -182,10 +182,9 @@ return {
               }
             end
 
-            require("dap.ext.vscode").load_launchjs()
-
-            -- if dap configurations were empty, then we can set this default one
-            if not dap.configurations.dart then
+            if vim.fn.filereadable(".vscode/launch.json") then
+              require("dap.ext.vscode").load_launchjs()
+            else
               dap.configurations.dart = {
                 {
                   type = "dart",
