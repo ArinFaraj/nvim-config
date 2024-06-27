@@ -180,6 +180,16 @@ return {
                   initialize_timeout_sec = 10,
                 },
               }
+            else
+              dap.adapters.dart = {
+                type = "executable",
+                command = flutterBin,
+                args = { "debug_adapter" },
+                options = {
+                  detached = false,
+                  initialize_timeout_sec = 10,
+                },
+              }
             end
 
             if vim.fn.filereadable(".vscode/launch.json") then
