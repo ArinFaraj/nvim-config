@@ -41,6 +41,7 @@ return {
 
         wk.register({
           d = { "<cmd>FlutterDevices<cr>", "Flutter Devices (Run)" },
+          m = { "<cmd>FlutterRun<cr>", "Flutter Run" },
           o = { "<cmd>FlutterOutlineToggle<cr>", "Flutter Outline" },
           q = { "<cmd>FlutterQuit<cr>", "Flutter Quit" },
           r = { "<cmd>FlutterRestart<cr>", "Flutter Restart" },
@@ -48,8 +49,10 @@ return {
           P = { "<cmd>FlutterPubUpgrade<cr>", "Flutter Pub Upgrade" },
           l = { "<cmd>FlutterLogClear<cr>", "Flutter Log Clear" },
           e = { "<cmd>FlutterEmulators<cr>", "Emulators" },
-          x = { "<cmd>FlutterOpenDevTools<cr>", "Open DevTools" },
-          c = { "<cmd>FlutterCopyProfilerUrl<cr>", "Copy Profiler Url" },
+          c = {
+            "<cmd>FlutterOpenDevTools<cr><cmd>FlutterCopyProfilerUrl<cr>",
+            "Open Devtools & Copy Profiler Url",
+          },
         }, {
           prefix = "<leader>m",
           name = "+dart",
@@ -192,25 +195,26 @@ return {
               }
             end
 
-            if vim.fn.filereadable(".vscode/launch.json") then
-              require("dap.ext.vscode").load_launchjs()
-            else
-              dap.configurations.dart = {
-                {
-                  type = "dart",
-                  request = "launch",
-                  name = "Launch dart",
-                  dartSdkPath = dartSdk,
-                  flutterSdkPath = flutterSdk,
-                  program = "${workspaceFolder}"
-                    .. path_sep
-                    .. "lib"
-                    .. path_sep
-                    .. "main.dart",
-                  cwd = "${workspaceFolder}",
-                },
-              }
-            end
+            -- require("dap.ext.vscode").load_launchjs()
+
+            -- if dap configurations were empty, then we can set this default one
+            -- if not dap.configurations.dart then
+            --   dap.configurations.dart = {
+            --     {
+            --       type = "dart",
+            --       request = "launch",
+            --       name = "Launch dart",
+            --       dartSdkPath = dartSdk,
+            --       flutterSdkPath = flutterSdk,
+            --       program = "${workspaceFolder}"
+            --         .. path_sep
+            --         .. "lib"
+            --         .. path_sep
+            --         .. "main.dart",
+            --       cwd = "${workspaceFolder}",
+            --     },
+            --   }
+            -- end
           end,
         },
       })
