@@ -39,23 +39,38 @@ return {
       local register_keys = function()
         local wk = require("which-key")
 
-        wk.register({
-          d = { "<cmd>FlutterDevices<cr>", "Flutter Devices (Run)" },
-          m = { "<cmd>FlutterRun<cr>", "Flutter Run" },
-          o = { "<cmd>FlutterOutlineToggle<cr>", "Flutter Outline" },
-          q = { "<cmd>FlutterQuit<cr>", "Flutter Quit" },
-          r = { "<cmd>FlutterRestart<cr>", "Flutter Restart" },
-          p = { "<cmd>FlutterPubGet<cr>", "Flutter Pub Get" },
-          P = { "<cmd>FlutterPubUpgrade<cr>", "Flutter Pub Upgrade" },
-          l = { "<cmd>FlutterLogClear<cr>", "Flutter Log Clear" },
-          e = { "<cmd>FlutterEmulators<cr>", "Emulators" },
-          c = {
-            "<cmd>FlutterOpenDevTools<cr><cmd>FlutterCopyProfilerUrl<cr>",
-            "Open Devtools & Copy Profiler Url",
+        wk.add({
+          { "<leader>m", name = "+dart", icon = "" },
+          {
+            "<leader>md",
+            "<cmd>FlutterDevices<cr>",
+            desc = "Flutter Devices (Run)",
           },
-        }, {
-          prefix = "<leader>m",
-          name = "+dart",
+          { "<leader>mm", "<cmd>FlutterRun<cr>", desc = "Flutter Run" },
+          {
+            "<leader>mo",
+            "<cmd>FlutterOutlineToggle<cr>",
+            desc = "Flutter Outline",
+          },
+          { "<leader>mq", "<cmd>FlutterQuit<cr>", desc = "Flutter Quit" },
+          { "<leader>mr", "<cmd>FlutterRestart<cr>", desc = "Flutter Restart" },
+          { "<leader>mp", "<cmd>FlutterPubGet<cr>", desc = "Flutter Pub Get" },
+          {
+            "<leader>mP",
+            "<cmd>FlutterPubUpgrade<cr>",
+            desc = "Flutter Pub Upgrade",
+          },
+          {
+            "<leader>ml",
+            "<cmd>FlutterLogClear<cr>",
+            desc = "Flutter Log Clear",
+          },
+          { "<leader>me", "<cmd>FlutterEmulators<cr>", desc = "Emulators" },
+          {
+            "<leader>mc",
+            "<cmd>FlutterOpenDevTools<cr><cmd>FlutterCopyProfilerUrl<cr>",
+            desc = "Open Devtools & Copy Profiler Url",
+          },
         })
       end
 
@@ -195,7 +210,7 @@ return {
               }
             end
 
-            -- require("dap.ext.vscode").load_launchjs()
+            require("dap.ext.vscode").load_launchjs()
 
             -- if dap configurations were empty, then we can set this default one
             -- if not dap.configurations.dart then

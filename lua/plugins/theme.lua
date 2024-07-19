@@ -54,7 +54,7 @@ return {
     lazy = true,
     opts = {
       style = "deep",
-      transparent = true,
+      transparent = false,
       term_colors = true,
       toggle_style_key = "<leader>up",
       -- diagnostics = {
