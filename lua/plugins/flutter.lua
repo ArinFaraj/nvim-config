@@ -210,7 +210,7 @@ return {
               }
             end
 
-            require("dap.ext.vscode").load_launchjs()
+            -- require("dap.ext.vscode").load_launchjs()
 
             -- if dap configurations were empty, then we can set this default one
             -- if not dap.configurations.dart then
