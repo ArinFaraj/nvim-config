@@ -102,8 +102,10 @@ return {
           open_cmd = "botright 5sp",
         },
         dev_tools = {
-          auto_open_browser = true,
+          autostart = true,
+          auto_open_browser = false,
         },
+        fvm = true,
         lsp = {
           on_attach = function()
             -- local dart_fix_all = function(bufnr, isPreflight)
@@ -165,8 +167,13 @@ return {
             completeFunctionCalls = true,
             updateImportsOnRename = true,
             enableSnippets = true,
-            renameFilesWithClasses = "prompt",
-            analysisExcludedFolders = {},
+            experimentalRefactors = true,
+            renameFilesWithClasses = "always",
+            analysisExcludedFolders = {
+              ".dart_tool",
+              "/Users/ts/.pub-cache/",
+              "/Users/ts/fvm/",
+            },
           },
         },
         debugger = {
@@ -175,18 +182,18 @@ return {
           exception_breakpoints = {},
           register_configurations = function(_)
             local is_windows = vim.fn.has("win32") > 0
-            local path_sep = is_windows and "\\" or "/"
+            -- local path_sep = is_windows and "\\" or "/"
             local flutter_exec = is_windows and "flutter.bat" or "flutter"
             local dap = require("dap")
             local flutterBin = vim.fn.resolve(vim.fn.exepath(flutter_exec))
-            local flutterSdk = vim.fn.fnamemodify(flutterBin, ":h:h")
-            local dartSdk = flutterSdk
-              .. path_sep
-              .. "bin"
-              .. path_sep
-              .. "cache"
-              .. path_sep
-              .. "dart-sdk"
+            -- local flutterSdk = vim.fn.fnamemodify(flutterBin, ":h:h")
+            -- local dartSdk = flutterSdk
+            --   .. path_sep
+            --   .. "bin"
+            --   .. path_sep
+            --   .. "cache"
+            --   .. path_sep
+            --   .. "dart-sdk"
 
             if is_windows then
               dap.adapters.dart = {
