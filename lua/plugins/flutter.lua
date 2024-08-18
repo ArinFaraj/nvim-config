@@ -99,6 +99,31 @@ return {
         dev_log = {
           enabled = true,
           notify_errors = true,
+          filter = function(
+            log_line --[[string]]
+          )
+            local ignored = {
+              "D/TrafficStats",
+              "D/ViewRootImplExtImpl",
+              "D/VRI",
+              "W/VRI",
+              "EGL_emulation",
+              "W/WindowOnBackDispatcher",
+              "I/TransportRuntime",
+              "W/ViewRootImpl",
+              "D/InputMethodManager",
+              "V/AutofillManager",
+              "I/SurfaceControl",
+              "Attempt to remove non-JNI",
+            }
+
+            for _, v in ipairs(ignored) do
+              if log_line:find(v) then
+                return false
+              end
+            end
+            return true
+          end,
           open_cmd = "botright 5sp",
         },
         dev_tools = {
