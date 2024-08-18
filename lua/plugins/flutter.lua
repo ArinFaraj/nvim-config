@@ -33,7 +33,8 @@ return {
     ft = "dart",
     enabled = not vim.o.diff,
     dependencies = {
-      "Nash0x7E2/awesome-flutter-snippets",
+      -- "Nash0x7E2/awesome-flutter-snippets",
+      -- "RobertBrunhage/flutter-riverpod-snippets",
     },
     config = function()
       local register_keys = function()
@@ -124,7 +125,8 @@ return {
             end
             return true
           end,
-          open_cmd = "botright 5sp",
+          open_cmd = "edit",
+          -- open_cmd = "botright 5sp",
         },
         dev_tools = {
           autostart = true,
@@ -195,15 +197,15 @@ return {
             experimentalRefactors = true,
             renameFilesWithClasses = "always",
             analysisExcludedFolders = {
-              ".dart_tool",
-              "/Users/ts/.pub-cache/",
-              "/Users/ts/fvm/",
+              -- ".dart_tool",
+              -- "/Users/ts/.pub-cache/",
+              -- "/Users/ts/fvm/",
             },
           },
         },
         debugger = {
           enabled = true,
-          run_via_dap = true,
+          run_via_dap = false,
           exception_breakpoints = {},
           register_configurations = function(_)
             local is_windows = vim.fn.has("win32") > 0
@@ -265,6 +267,16 @@ return {
           end,
         },
       })
+
+      -- do not move focus when opening log buffer
+      local ui = require("flutter-tools.ui")
+      local original_open_win = ui.open_win
+      ---@diagnostic disable-next-line: duplicate-set-field
+      ui.open_win = function(cmd, bufnr, opts)
+        local current_buf = vim.api.nvim_get_current_buf()
+        original_open_win(cmd, bufnr, opts)
+        vim.api.nvim_set_current_buf(current_buf)
+      end
     end,
   },
   -- {
