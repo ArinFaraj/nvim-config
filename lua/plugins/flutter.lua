@@ -99,7 +99,7 @@ return {
         },
         dev_log = {
           enabled = true,
-          notify_errors = true,
+          notify_errors = false,
           filter = function(
             log_line --[[string]]
           )
