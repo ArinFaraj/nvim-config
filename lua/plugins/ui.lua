@@ -1,5 +1,16 @@
 return {
   {
+    "akinsho/bufferline.nvim",
+    opts = {
+      options = {
+        indicator = {
+          icon = "", -- this should be omitted if indicator style is not 'icon'
+          style = "icon",
+        },
+      },
+    },
+  },
+  {
     "folke/noice.nvim",
     opts = function(_, opts)
       table.insert(opts.routes, {
