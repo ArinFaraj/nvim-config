@@ -5,9 +5,9 @@ vim.o.exrc = true
 vim.opt.scrolloff = 15 -- Lines of context
 -- vim.g.minipairs_disable = true
 if vim.fn.has("win32") > 0 then
-  if vim.fn.executable("pwsh") == 1 then
-    vim.o.shell = "pwsh"
-  elseif vim.fn.executable("powershell") == 1 then
+  -- if vim.fn.executable("pwsh") == 1 then
+  --   vim.o.shell = "pwsh"
+  if vim.fn.executable("powershell") == 1 then
     vim.o.shell = "powershell"
   else
     return LazyVim.error("No powershell executable found")
