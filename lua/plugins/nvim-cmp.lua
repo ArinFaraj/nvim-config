@@ -1,5 +1,6 @@
 return {
-  "nvim-cmp",
+  "yioneko/nvim-cmp",
+  branch = "perf-up",
   ---@param opts cmp.ConfigSchema
   opts = function(_, opts)
     local cmp = require("cmp")
