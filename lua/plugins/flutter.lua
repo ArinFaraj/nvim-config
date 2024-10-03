@@ -1,3 +1,20 @@
+function list_insert_unique(dst, src)
+  if not dst then
+    dst = {}
+  end
+
+  local added = {}
+  for _, val in ipairs(dst) do
+    added[val] = true
+  end
+  for _, val in ipairs(src) do
+    if not added[val] then
+      table.insert(dst, val)
+      added[val] = true
+    end
+  end
+  return dst
+end
 return {
   -- {
   --   "neovim/nvim-lspconfig",
@@ -276,6 +293,18 @@ return {
         local current_buf = vim.api.nvim_get_current_buf()
         original_open_win(cmd, bufnr, opts)
         vim.api.nvim_set_current_buf(current_buf)
+      end
+    end,
+  },
+  {
+    "nvim-treesitter/nvim-treesitter",
+    optional = true,
+    opts = function(_, opts)
+      -- HACK: Disables the select treesitter textobjects because the Dart treesitter parser is very inefficient. Hopefully this gets fixed and this block can be removed in the future.
+      -- Reference: https://github.com/AstroNvim/AstroNvim/issues/2707
+      local select = vim.tbl_get(opts, "textobjects", "select")
+      if select then
+        select.disable = list_insert_unique(select.disable, { "dart" })
       end
     end,
   },
