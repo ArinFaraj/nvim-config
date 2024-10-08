@@ -226,15 +226,17 @@ return {
           exception_breakpoints = {},
           register_configurations = function(_)
             local dap = require("dap")
+            local new_session = false
 
             local function auto_resume_if_stopped()
+              if not new_session then
+                return
+              end
+
+              new_session = false
+
               vim.defer_fn(function()
                 dap.continue()
-                vim.notify(
-                  "Debugger paused within 10 seconds, auto-resuming...",
-                  vim.log.levels.INFO
-                )
-
                 local paused_bufnr = vim.api.nvim_get_current_buf()
                 if paused_bufnr and vim.api.nvim_buf_is_valid(paused_bufnr) then
                   local windows = vim.fn.win_findbuf(paused_bufnr)
@@ -244,7 +246,15 @@ return {
                   vim.api.nvim_buf_delete(paused_bufnr, { force = true })
                   vim.notify("Closed paused buffer", vim.log.levels.INFO)
                 end
-              end, 800)
+              end, 1000)
+            end
+
+            dap.listeners.after.event_initialized["auto-continue"] = function(
+              _,
+              _
+            )
+              vim.notify("New debug session")
+              new_session = true
             end
 
             dap.listeners.after.event_stopped["auto-continue"] = function(
@@ -274,6 +284,11 @@ return {
                 type = "executable",
                 command = vim.fn.exepath("cmd.exe"),
                 args = { "/c", flutterBin, "debug_adapter" },
+                enrich_config = function(conf, on_config)
+                  local new_config =
+                    vim.tbl_deep_extend("force", conf, { stopOnEntry = false })
+                  on_config(new_config)
+                end,
                 options = {
                   detached = false,
                   initialize_timeout_sec = 10,
@@ -283,6 +298,11 @@ return {
               dap.adapters.dart = {
                 type = "executable",
                 command = flutterBin,
+                enrich_config = function(conf, on_config)
+                  local new_config =
+                    vim.tbl_deep_extend("force", conf, { stopOnEntry = false })
+                  on_config(new_config)
+                end,
                 args = { "debug_adapter" },
                 options = {
                   detached = false,
