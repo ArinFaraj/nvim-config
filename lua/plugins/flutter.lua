@@ -225,44 +225,35 @@ return {
           run_via_dap = false,
           exception_breakpoints = {},
           register_configurations = function(_)
-            -- Lua script to automatically run DapContinue if debugger pauses within 10 seconds of start, with notifications
             local dap = require("dap")
 
-            -- Variable to track when the debugging session starts
-            local debug_start_time = nil
-
-            -- Function to check and automatically resume debugger with notification
             local function auto_resume_if_stopped()
-              -- Get the current time
-              local current_time = vim.loop.now()
+              vim.defer_fn(function()
+                dap.continue()
+                vim.notify(
+                  "Debugger paused within 10 seconds, auto-resuming...",
+                  vim.log.levels.INFO
+                )
 
-              -- Calculate the time difference between now and when the debugging session started
-              if
-                debug_start_time
-                and (current_time - debug_start_time) <= 600000
-              then
-                vim.defer_fn(function()
-                  dap.continue()
-                  vim.notify(
-                    "Debugger paused within 600 seconds, auto-resuming...",
-                    vim.log.levels.INFO
-                  )
-                end, 100)
+                local paused_bufnr = vim.api.nvim_get_current_buf()
+                if paused_bufnr and vim.api.nvim_buf_is_valid(paused_bufnr) then
+                  local windows = vim.fn.win_findbuf(paused_bufnr)
+                  if #windows > 0 then
+                    vim.cmd("bprevious") -- Switch to the previous buffer
+                  end
+                  vim.api.nvim_buf_delete(paused_bufnr, { force = true })
+                  vim.notify("Closed paused buffer", vim.log.levels.INFO)
+                end
+              end, 800)
+            end
+
+            dap.listeners.after.event_stopped["auto-continue"] = function(
+              _,
+              body
+            )
+              if body.reason == "entry" then
+                auto_resume_if_stopped()
               end
-            end
-
-            dap.listeners.after.event_initialized["auto-continue"] = function()
-              debug_start_time = vim.loop.now()
-              vim.notify("Debugging session started", vim.log.levels.INFO)
-            end
-
-            dap.listeners.after.event_stopped["auto-continue"] = function()
-              auto_resume_if_stopped()
-            end
-
-            dap.listeners.after.event_terminated["auto-continue"] = function()
-              vim.notify("Debugging session ended", vim.log.levels.INFO)
-              debug_start_time = nil
             end
 
             local is_windows = vim.fn.has("win32") > 0
@@ -304,21 +295,22 @@ return {
 
             -- if dap configurations were empty, then we can set this default one
             -- if not dap.configurations.dart then
-            --   dap.configurations.dart = {
-            --     {
-            --       type = "dart",
-            --       request = "launch",
-            --       name = "Launch dart",
-            --       dartSdkPath = dartSdk,
-            --       flutterSdkPath = flutterSdk,
-            --       program = "${workspaceFolder}"
-            --         .. path_sep
-            --         .. "lib"
-            --         .. path_sep
-            --         .. "main.dart",
-            --       cwd = "${workspaceFolder}",
-            --     },
-            --   }
+            -- set stopOnEntry to false to for each configuration
+            -- dap.configurations.dart = {
+            --   {
+            --     type = "dart",
+            --     request = "launch",
+            --     name = "Launch dart",
+            --     dartSdkPath = dartSdk,
+            --     flutterSdkPath = flutterSdk,
+            --     program = "${workspaceFolder}"
+            --       .. path_sep
+            --       .. "lib"
+            --       .. path_sep
+            --       .. "main.dart",
+            --     cwd = "${workspaceFolder}",
+            --   },
+            -- }
             -- end
           end,
         },
