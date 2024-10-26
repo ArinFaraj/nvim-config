@@ -18,7 +18,7 @@ return {
             local open_command
             if vim.fn.has("mac") == 1 then
               -- macOS: open file in default application in the background
-              open_command = { "open", "-g", path }
+              open_command = { "open", path }
               -- or use xdg-open if the above command doesn't work
               -- open_command = { "xdg-open", "-g", path }
             elseif vim.fn.has("unix") == 1 then
