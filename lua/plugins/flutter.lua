@@ -1,4 +1,4 @@
-function list_insert_unique(dst, src)
+local function list_insert_unique(dst, src)
   if not dst then
     dst = {}
   end
@@ -152,35 +152,6 @@ return {
         fvm = true,
         lsp = {
           on_attach = function()
-            -- local dart_fix_all = function(bufnr, isPreflight)
-            --   local command = "edit.fixAll"
-            --   local cur_buf_name = vim.api.nvim_buf_get_name(bufnr)
-            --   local params = {
-            --     command = command,
-            --     arguments = { { path = cur_buf_name } },
-            --     title = "",
-            --   }
-            --
-            --   if isPreflight then
-            --     vim.lsp.buf_request(
-            --       bufnr,
-            --       "workspace/executeCommand",
-            --       params,
-            --       function() end
-            --     )
-            --     return
-            --   end
-            --   vim.lsp.buf_request_sync(
-            --     bufnr,
-            --     "workspace/executeCommand",
-            --     params,
-            --     3000
-            --   )
-            -- end
-
-            -- local bufnr = vim.api.nvim_get_current_buf()
-            -- hack: Preflight async request to dartls, which can prevent blocking when save buffer on first time opened
-            -- dart_fix_all(bufnr, true)
             vim.api.nvim_create_autocmd("BufWritePre", {
               pattern = "*.dart",
               group = vim.api.nvim_create_augroup("LspDartFixAll", {}),
@@ -226,45 +197,6 @@ return {
           exception_breakpoints = {},
           register_configurations = function(_)
             local dap = require("dap")
-            local new_session = false
-
-            local function auto_resume_if_stopped()
-              if not new_session then
-                return
-              end
-
-              new_session = false
-
-              vim.defer_fn(function()
-                dap.continue()
-                local paused_bufnr = vim.api.nvim_get_current_buf()
-                if paused_bufnr and vim.api.nvim_buf_is_valid(paused_bufnr) then
-                  local windows = vim.fn.win_findbuf(paused_bufnr)
-                  if #windows > 0 then
-                    vim.cmd("bprevious") -- Switch to the previous buffer
-                  end
-                  vim.api.nvim_buf_delete(paused_bufnr, { force = true })
-                  vim.notify("Closed paused buffer", vim.log.levels.INFO)
-                end
-              end, 1000)
-            end
-
-            dap.listeners.after.event_initialized["auto-continue"] = function(
-              _,
-              _
-            )
-              vim.notify("New debug session")
-              new_session = true
-            end
-
-            dap.listeners.after.event_stopped["auto-continue"] = function(
-              _,
-              body
-            )
-              if body.reason == "entry" then
-                auto_resume_if_stopped()
-              end
-            end
 
             local is_windows = vim.fn.has("win32") > 0
             -- local path_sep = is_windows and "\\" or "/"
@@ -351,7 +283,9 @@ return {
     "nvim-treesitter/nvim-treesitter",
     optional = true,
     opts = function(_, opts)
-      -- HACK: Disables the select treesitter textobjects because the Dart treesitter parser is very inefficient. Hopefully this gets fixed and this block can be removed in the future.
+      -- HACK: Disables the select treesitter textobjects because the Dart treesitter
+      -- parser is very inefficient. Hopefully this gets fixed
+      -- and this block can be removed in the future.
       -- Reference: https://github.com/AstroNvim/AstroNvim/issues/2707
       local select = vim.tbl_get(opts, "textobjects", "select")
       if select then
