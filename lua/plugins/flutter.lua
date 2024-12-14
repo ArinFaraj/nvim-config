@@ -152,21 +152,6 @@ return {
         fvm = true,
         lsp = {
           on_attach = function()
-            vim.api.nvim_create_autocmd("BufWritePre", {
-              pattern = "*.dart",
-              group = vim.api.nvim_create_augroup("LspDartFixAll", {}),
-              callback = function(args)
-                vim.lsp.buf.code_action({
-                  context = {
-                    only = { "source.fixAll" },
-                    diagnostics = {},
-                  },
-                  apply = true,
-                })
-                vim.cmd("write")
-                -- dart_fix_all(args.buf)
-              end,
-            })
             require("telescope").load_extension("flutter")
           end,
           color = {
