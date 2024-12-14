@@ -3,6 +3,7 @@
 -- Add any additional options here
 vim.o.exrc = true
 vim.opt.scrolloff = 15 -- Lines of context
+vim.g.snacks_animate = false
 -- vim.g.minipairs_disable = true
 if vim.fn.has("win32") > 0 then
   -- if vim.fn.executable("pwsh") == 1 then

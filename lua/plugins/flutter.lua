@@ -151,9 +151,9 @@ return {
         },
         fvm = true,
         lsp = {
-          on_attach = function()
-            require("telescope").load_extension("flutter")
-          end,
+          -- on_attach = function()
+          --   require("telescope").load_extension("flutter")
+          -- end,
           color = {
             enabled = true,
             background = false,
